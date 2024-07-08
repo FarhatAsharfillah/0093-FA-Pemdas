@@ -1,0 +1,135 @@
+/*! \mainpage Sistem Manajemen Karyawan dan proyek
+ *
+ * \section intro_sec Pengantar
+ * Selamat datang di dokumentasi sistem karyawan dan proyek
+ * sistem ini dirancang untuk mengelola karyawan dan proyek
+ *
+ * \section Structure_sec Struktur Kode
+ * Kode ini terdiri  dari tiga kelas utama:
+ * - \a proyek: Menangani operasi yang terkait dengan proyek
+ * - \a Karywan: Menangani informasi tentang karyawan
+ * - \a Perusahaan: Menangani informasi tentang perusahaan
+ *
+ * \section setup_sec Setup  dan Konfigurasi
+ * Untuk menjalankan sistem ini, pastikn anda memiliki compiler
+ * kompilasi dan jalankan file ini ini menggunakan compiler pilihan anda
+ *
+ * \section author_sec Tentang Pengembang
+ * Sistem ini dikembang oleh Farhat Asharfillah
+ *
+ * \section note_sec Catatan
+ * Dokumentasi ini dihasilkan menggunkan doxygen
+ */
+
+/**
+ * @file UCP2Relasi_0093.cpp
+ * @brief Sistem Manajemen Karyawan dan proyek
+ *
+ */
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Proyek
+{
+public:
+    string nama_proyek;
+    vector<string> karyawan;
+
+    Proyek(string nama_proyek) : nama_proyek(nama_proyek) {}
+
+    void tambah_karyawan(string karyawan)
+    {
+        this->karyawan.push_back(karyawan);
+    }
+
+    void daftar_karyawan()
+    {
+        cout << "Daftar Karyawan Proyek " << nama_proyek << ":" << endl;
+        for (string karyawan : karyawan)
+        {
+            cout << karyawan << endl;
+        }
+    }
+};
+
+class Karyawan
+{
+public:
+    string nama_karyawan;
+    vector<Proyek *> proyek;
+
+    Karyawan(string nama_karyawan) : nama_karyawan(nama_karyawan) {}
+
+    void tambah_proyek(Proyek *proyek)
+    {
+        this->proyek.push_back(proyek);
+    }
+
+    void daftar_proyek()
+    {
+        cout << "Daftar Proyek Karyawan " << nama_karyawan << ":" << endl;
+        for (Proyek *proyek : proyek)
+        {
+            cout << proyek->nama_proyek << endl;
+        }
+    }
+};
+
+class Perusahaan
+{
+public:
+    string nama_perusahaan;
+    vector<Karyawan *> karyawan;
+
+    Perusahaan(string nama_perusahaan) : nama_perusahaan(nama_perusahaan) {}
+
+    void tambah_karyawan(Karyawan *karyawan)
+    {
+        this->karyawan.push_back(karyawan);
+    }
+
+    void daftar_karyawan()
+    {
+        cout << "Daftar Karyawan Perusahaan " << nama_perusahaan << ":" << endl;
+        for (Karyawan *karyawan : karyawan)
+        {
+            cout << karyawan->nama_karyawan << endl;
+        }
+    }
+};
+
+int main()
+{
+    Perusahaan pt_maju_mundur("PT. Maju Mundur");
+
+    Karyawan budi("Budi");
+    Karyawan andi("Andi");
+
+    Proyek sistem_informasi("Sistem Informasi");
+    Proyek sistem_keamanan("Sistem Keamanan");
+
+    pt_maju_mundur.tambah_karyawan(&budi);
+    pt_maju_mundur.tambah_karyawan(&andi);
+
+    budi.tambah_proyek(&sistem_informasi);
+    budi.tambah_proyek(&sistem_keamanan);
+    andi.tambah_proyek(&sistem_informasi);
+
+    sistem_informasi.tambah_karyawan("Budi");
+    sistem_informasi.tambah_karyawan("Andi");
+    sistem_keamanan.tambah_karyawan("Budi");
+
+    pt_maju_mundur.daftar_karyawan();
+    cout << endl;
+    budi.daftar_proyek();
+    cout << endl;
+    andi.daftar_proyek();
+    cout << endl;
+    sistem_informasi.daftar_karyawan();
+    cout << endl;
+    sistem_keamanan.daftar_karyawan();
+
+    return 0;
+}
